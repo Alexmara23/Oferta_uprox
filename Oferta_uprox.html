@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator ofertă U-Prox Systems</title>
+    <style>
+        :root {
+            --primary-color: #266bb1;
+            --secondary-color: #3498db;
+            --highlight-color: #ffffff;
+            --border-color: #ccc;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #232323;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #cecece;
+        }
+        
+        h1, h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        h1 {
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            background: rgb(236, 236, 236);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .products-section {
+            flex: 1 1 60%;
+            min-width: 300px;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        #productSearch {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .products-table th, 
+        .products-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .products-table th {
+            background-color: var(--primary-color);
+            color: rgb(255, 255, 255);
+            position: sticky;
+            top: 0;
+        }
+        
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        
+        .quantity-select {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: rgb(255, 255, 255);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .quantity-select:hover {
+            border-color: var(--secondary-color);
+        }
+        
+        .price-cell {
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .cart-section {
+            flex: 1 1 35%;
+            min-width: 250px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: #f6f6f6;
+            max-height: 600px;
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        
+        .cart-item {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .cart-item-name {
+            flex: 2;
+        }
+        
+        .cart-item-qty {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .cart-item-price {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .price-summary {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: rgb(250, 250, 250);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            font-size: 1.1em;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .btn-reset {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .btn-export {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .highlight {
+            background-color: var(--highlight-color);
+            transition: background-color 0.3s;
+        }
+        
+        .discount-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .discount-section label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .discount-section input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .products-section, .cart-section {
+                width: 100%;
+            }
+            
+            .cart-section {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculator ofertă U-Prox Systems</h1>
+    
+    <div class="container">
+        <div class="products-section">
+            <div class="search-box">
+                <input type="text" id="productSearch" placeholder="Caută produs...">
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Produs</th>
+                            <th>Cod produs</th>
+                            <th>Descriere</th>
+                            <th width="150">Preț (Lei) fara TVA</th>
+                            <th>Cantitate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- Produsele vor fi generate dinamic prin JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="cart-section">
+            <h2>Oferta finală</h2>
+            
+            <div class="discount-section">
+                <div>
+                    <label for="discount">Discount (%):</label>
+                    <input type="number" id="discount" min="0" max="100" value="0">
+                </div>
+                <div style="margin-top: 10px;">
+                    <label for="tva">TVA (%):</label>
+                    <input type="number" id="tva" min="0" max="100" value="19">
+                </div>
+            </div>
+            
+            <ul class="cart-items" id="cartItemsList">
+                <!-- Elementele din coș vor fi populate din JavaScript -->
+            </ul>
+            
+            <div class="price-summary">
+                <div class="price-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotalPrice">0.00 Lei</span>
+                </div>
+                <div class="price-row">
+                    <span>Discount:</span>
+                    <span id="discountAmount">0.00 Lei (0%)</span>
+                </div>
+                <div class="price-row">
+                    <span>TVA:</span>
+                    <span id="tvaAmount">0.00 Lei (19%)</span>
+                </div>
+                <div class="price-row total-row">
+                    <span>Total:</span>
+                    <span id="totalPrice">0.00 Lei</span>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-reset" id="resetBtn">Resetează</button>
+                <button class="btn btn-export" id="exportPdfBtn">Exportă PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Obiectul principal al aplicației
+        const App = {
+            products: [],
+            cart: [],
+            
+            // Inițializare aplicație
+            init: function() {
+                this.loadProducts();
+                this.setupEventListeners();
+                this.loadSavedCart();
+            },
+            
+            // Încărcare produse
+            loadProducts: function() {
+                // Datele produselor (pot fi înlocuite cu date din API)
+                const productsData = [
+                    {id: 1, name: "Kit U-Prox MPX G", desc: "Kit starter, contine Centrala MPX G, Senzor U-Prox PIR, Contact Magnetic WDC si Telecomanda B3", price: 713, img: "https://security.u-prox.systems/wp-content/uploads/2024/02/kit_MPX_s-3_b4_white.png"},
+                    {id: 2, name: "Kit U-Prox MPX L", desc: "Kit starter, contine Centrala MPX L, Senzor U-Prox PIR, Contact Magnetic WDC si Telecomanda B4", price: 821, img: "https://security.u-prox.systems/wp-content/uploads/2024/02/kit_MPX_s-3_b4_white.png"},
+                    {id: 4, name: "Kit U-Prox MPX LE", desc: "Kit starter, contine Centrala MPX LE, Senzor U-Prox PIR, Contact Magnetic WDC si Telecomanda B4", price: 900, img: "https://security.u-prox.systems/wp-content/uploads/2024/02/kit_MPX_s-3_b4_white.png"},
+                    {id: 5, name: "U-Prox PIR", desc: "Senzor de interior, tehnologie PIR, detecție 12m, 88°, lentilă PET", price: 116, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/pir-combi.png"},
+                    {id: 6, name: "U-Prox PIR VB", desc: "Senzor de interior tip cortină, tehnologie PIR, detecție 10m, 7.5°, lentilă Vertical Barrier", price: 120, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/pir-combi.png"},
+                    {id: 7, name: "U-Prox PIR Combi", desc: "Senzor de interior, tehnologie PIR + geam spart, detecție 12m, 88°, lentilă PET", price: 184, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/pir-combi.png"},
+                    {id: 8, name: "U-Prox PIR Combi VB", desc: "Senzor de interior tip cortină, tehnologie PIR + geam spart, detecție 10m, 7.5°, lentilă Vertical Barrier", price: 188, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/pir-combi.png"},
+                    {id: 24, name: "U-Prox PIR Exterior", desc: "Senzor de exterior, tehnologie PIR Anti-Mask, detecție 3-15m, unghi de vizualizare 90°", price: 349, img: "https://security.u-prox.systems/wp-content/uploads/2021/11/pir-outdoor-5_11.png"},
+                    {id: 9, name: "U-Prox WDC", desc: "Contact magnetic cu intrare de zonă, distanță montaj 7-15mm", price: 103, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/wdc_1-300x300.png"},
+                    {id: 10, name: "U-Prox WDC Plus", desc: "Contact magnetic cu intrare de zonă și senzor înclinare inclus, distanță montaj 7-15mm", price: 130, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/wdc_1-300x300.png"},
+                    {id: 11, name: "U-Prox WDC Uni", desc: "Contact magnetic cu intrare de zonă și senzor de șoc inclus, tehnologie 5 in 1,  distanță montaj 7-15mm", price: 140, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/wdc_1-300x300.png"},
+                    {id: 12, name: "U-Prox-telecomanda B3", desc: "Telecomanda breloc-3 butoane armare / dezarmare / buton editabil ", price: 62, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/keyfob_g_white-1-e1664222709147-300x300.png"},
+                    {id: 13, name: "U-Prox-telecomanda B4", desc: "Telecomanda breloc-4 butoane armare / dezarmare / armare Stay / buton editabil ", price: 75, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/keyfob-new-e1664187307199-300x300.png"},
+                    {id: 14, name: "U-Prox-telecomada B1", desc: "Telecomanda breloc-1 buton panică sau automatizare / buton editabil ", price: 75, img: "https://security.u-prox.systems/wp-content/uploads/2021/06/maks-button_4-300x300.png"},
+                    {id: 25, name: "U-Prox Tastatura G1", desc: "Tastatură gestionare o partiție, taste iluminate, suporta schimbare cod ", price: 226, img: "https://security.u-prox.systems/wp-content/uploads/2020/07/keypad_g1_white-300x300.jpg"},
+                    {id: 26, name: "U-Prox Tastatura G4", desc: "Tastatură gestionare 4 partiții, taste iluminate, suporta schimbare cod ", price: 271, img: "https://security.u-prox.systems/wp-content/uploads/2020/07/keypad_g4_white-300x300.jpg"},
+                    {id: 15, name: "U-Prox Sirena interior", desc: "Sirena interior, intensitate alarmă 85 dB, intrare zonă externă, dimensiune 84.5 x 84.5 x 24.3 mm", price: 182, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/u-prox_siren_front-2-300x300.png"},
+                    {id: 16, name: "U-Prox Sirena exterior", desc: "Sirena exterior, intensitate alarmă 113 dB, confirmare armare/dezarmare, dimensiune 167 x 120 x 38 mm", price: 374, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/siren_outdoor_1-300x300.png"},
+                    {id: 17, name: "U-Prox Relay DC", desc: "Releu DC 12V, ieșire NO/COM/NC,Suportă peste 200 000 de acționări ", price: 115, img: "https://security.u-prox.systems/wp-content/uploads/2024/02/kit_MPX_s-3_b4_white.png"},
+                    {id: 18, name: "U-Prox Relay AC", desc: "Releu AC 230V, ieșire L/N 230V, Mod impuls ajustabil 0.1 … 250 sec", price: 184, img: "https://security.u-prox.systems/wp-content/uploads/2024/02/kit_MPX_s-3_b4_white.png"},
+                    {id: 19, name: "U-Prox Wireport", desc: "Modul integrare două zone cu fir în sistem U-Prox, intrare tamper zone, alimentare 3v, baterii incluse", price: 134, img: "https://security.u-prox.systems/wp-content/uploads/2022/02/wireport_2.jpg"},
+                    {id: 20, name: "U-Prox Multiplexer - 8 Zone", desc: "Modul integrare 8 zone cu fir in sistem U-Prox, Alimentare 10.8VDC-13.8VDC, ieșire 12v 200mAh, backup 2500mAh ", price: 432, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/siren_outdoor_1-300x300.png"},
+                    {id: 21, name: "U-Prox Extender Radio", desc: "Modul extensie semnal radio, Alimentare 12V DC, 36 de ore autonomie, include acumulator 2500mAh", price: 363, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/siren_outdoor_1-300x300.png"},
+                    {id: 27, name: "U-Prox Senzor FUM", desc: "Senzor de fum, soclu inclus, intensitate sunet 85dB", price: 209, img: "https://security.u-prox.systems/wp-content/uploads/2024/02/U-PROX_Smoke_1-1-300x300.png"},
+                    {id: 28, name: "U-Prox Senzor Apa", desc: "Senzor de inuntație, protecție IP65, 4 contacte pentru deteția umidității", price: 109, img: "https://security.u-prox.systems/wp-content/uploads/2020/08/water.png"},
+                    {id: 22, name: "U-Prox Valve DN15", desc: "Kit valvă automatizare, dimensiune montaj DN15 ", price: 563, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/KLD20S1.png"},
+                    {id: 23, name: "U-Prox Valve DN20", desc: "Kit valvă automatizare, dimensiune montaj DN20 ", price: 605, img: "https://security.u-prox.systems/wp-content/uploads/2022/09/KLD20S1.png"},
+                    // ... adaugă toate cele 28 de produse aici
+                    {id: 29, name: "U-Prox PIR CAM", desc: "Senzor de interior - notificare cu  imagine, tehnologie PIR, detecție 12m, 88°, lentilă PET", price: 396, img: "https://security.u-prox.systems/wp-content/uploads/2024/03/Pir_Cam_front-300x300.png"}
+                ];
+                
+                // Generare tabel produse
+                const tbody = document.getElementById('productsTableBody');
+                tbody.innerHTML = productsData.map(product => `
+                    <tr data-id="${product.id}">
+                        <td><img src="${product.img}" class="product-image" alt="${product.name}" onerror="this.style.display='none'"></td>
+                        <td>${product.name}</td>
+                        <td>${product.desc}</td>
+                        <td class="price-cell">${product.price.toFixed(2)}</td>
+                        <td>
+                            <select class="quantity-select" id="quantity-${product.id}">
+                                ${Array.from({length: 101}, (_, i) => `<option value="${i}">${i}</option>`).join('')}
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                // Salvare produse în memorie
+                this.products = productsData.map(p => ({
+                    ...p,
+                    element: document.querySelector(`tr[data-id="${p.id}"]`)
+                }));
+            },
+            
+            // Setare event listeners
+            setupEventListeners: function() {
+                // Butoane coș
+                document.getElementById('resetBtn').addEventListener('click', () => this.resetCart());
+                document.getElementById('exportPdfBtn').addEventListener('click', () => this.exportToPdf());
+                
+                // Schimbare cantități
+                document.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('quantity-select')) {
+                        const productId = parseInt(e.target.id.split('-')[1]);
+                        this.updateCart(productId, parseInt(e.target.value));
+                    }
+                });
+                
+                // Căutare produse
+                document.getElementById('productSearch').addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    this.products.forEach(p => {
+                        const show = p.name.toLowerCase().includes(term) || 
+                                    p.desc.toLowerCase().includes(term);
+                        p.element.style.display = show ? '' : 'none';
+                    });
+                });
+                
+                // Schimbare discount/TVA
+                document.getElementById('discount').addEventListener('change', () => this.updateCartUI());
+                document.getElementById('tva').addEventListener('change', () => this.updateCartUI());
+            },
+            
+            // Actualizare coș
+            updateCart: function(productId, quantity) {
+                const product = this.products.find(p => p.id === productId);
+                if (!product) return;
+                
+                const existingIndex = this.cart.findIndex(item => item.id === productId);
+                
+                if (quantity > 0) {
+                    const cartItem = {
+                        id: productId,
+                        name: product.name,
+                        desc: product.desc,
+                        price: product.price,
+                        quantity: quantity
+                    };
+                    
+                    if (existingIndex !== -1) {
+                        this.cart[existingIndex] = cartItem;
+                    } else {
+                        this.cart.push(cartItem);
+                    }
+                } else if (existingIndex !== -1) {
+                    this.cart.splice(existingIndex, 1);
+                }
+                
+                this.updateCartUI();
+                this.highlightProductRow(productId, quantity > 0);
+                this.saveCart();
+            },
+            
+            // Actualizare UI coș
+            updateCartUI: function() {
+                const cartList = document.getElementById('cartItemsList');
+                const discount = parseFloat(document.getElementById('discount').value) || 0;
+                const tva = parseFloat(document.getElementById('tva').value) || 19;
+                
+                // Calcule preț
+                const subtotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const discountAmount = subtotal * (discount / 100);
+                const totalWithoutTva = subtotal - discountAmount;
+                const tvaAmount = totalWithoutTva * (tva / 100);
+                const total = totalWithoutTva + tvaAmount;
+                
+                // Actualizare listă produse
+                cartList.innerHTML = this.cart.map(item => `
+                    <li class="cart-item">
+                        <span class="cart-item-name">${item.name}</span>
+                        <span class="cart-item-qty">${item.quantity} buc</span>
+                        <span class="cart-item-price">${(item.price * item.quantity).toFixed(2)} Lei</span>
+                    </li>
+                `).join('') || '<li>Nu există produse în coș</li>';
+                
+                // Actualizare sumar preț
+                document.getElementById('subtotalPrice').textContent = `${subtotal.toFixed(2)} Lei`;
+                document.getElementById('discountAmount').textContent = `${discountAmount.toFixed(2)} Lei (${discount}%)`;
+                document.getElementById('tvaAmount').textContent = `${tvaAmount.toFixed(2)} Lei (${tva}%)`;
+                document.getElementById('totalPrice').textContent = `${total.toFixed(2)} Lei`;
+            },
+            
+            // Highlight rând produs
+            highlightProductRow: function(productId, highlight) {
+                const product = this.products.find(p => p.id === productId);
+                if (product && product.element) {
+                    product.element.classList.toggle('highlight', highlight);
+                    if (highlight) {
+                        setTimeout(() => product.element.classList.remove('highlight'), 500);
+                    }
+                }
+            },
+            
+            // Resetare coș
+            resetCart: function() {
+                document.querySelectorAll('.quantity-select').forEach(select => {
+                    select.value = 0;
+                });
+                this.cart = [];
+                this.updateCartUI();
+                localStorage.removeItem('uproxOffer');
+            },
+            
+            // Salvare coș în localStorage
+            saveCart: function() {
+                const cartData = {
+                    items: this.cart,
+                    quantities: this.products.map(p => ({
+                        id: p.id,
+                        quantity: document.getElementById(`quantity-${p.id}`).value
+                    })),
+                    discount: document.getElementById('discount').value,
+                    tva: document.getElementById('tva').value
+                };
+                localStorage.setItem('uproxOffer', JSON.stringify(cartData));
+            },
+            
+            // Încărcare coș salvat
+            loadSavedCart: function() {
+                const saved = localStorage.getItem('uproxOffer');
+                if (saved) {
+                    const cartData = JSON.parse(saved);
+                    
+                    // Restaurare cantități
+                    cartData.quantities.forEach(q => {
+                        const select = document.getElementById(`quantity-${q.id}`);
+                        if (select) {
+                            select.value = q.quantity;
+                            this.updateCart(q.id, parseInt(q.quantity));
+                        }
+                    });
+                    
+                    // Restaurare discount/TVA
+                    if (cartData.discount) document.getElementById('discount').value = cartData.discount;
+                    if (cartData.tva) document.getElementById('tva').value = cartData.tva;
+                }
+            },
+            
+            // Export PDF
+            exportToPdf: function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Header
+                doc.setFontSize(18);
+                doc.text('Oferta U-Prox Systems', 105, 20, { align: 'center' });
+                
+                // Data
+                const today = new Date().toLocaleDateString('ro-RO');
+                doc.setFontSize(12);
+                doc.text(`Data: ${today}`, 15, 30);
+                
+                // Detalii client (poți adăuga un formular pentru acestea)
+                doc.text('Client: ___________________________', 15, 40);
+                doc.text('CUI/CIF: _________________________', 15, 45);
+                
+                // Parametri ofertă
+                const discount = parseFloat(document.getElementById('discount').value) || 0;
+                const tva = parseFloat(document.getElementById('tva').value) || 19;
+                
+                // Calcule preț
+                const subtotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const discountAmount = subtotal * (discount / 100);
+                const totalWithoutTva = subtotal - discountAmount;
+                const tvaAmount = totalWithoutTva * (tva / 100);
+                const total = totalWithoutTva + tvaAmount;
+                
+                // Listă produse
+                doc.setFontSize(12);
+                let y = 70;
+                
+                if (this.cart.length === 0) {
+                    doc.text('Nu există produse în oferta', 20, y);
+                } else {
+                    // Antet tabel
+                    doc.text('Produs', 20, y);
+                    doc.text('Cantitate', 100, y);
+                    doc.text('Pret/BUC', 130, y);
+                    doc.text('Total', 170, y);
+                    y += 10;
+                    
+                    doc.line(20, y, 190, y);
+                    y += 10;
+                    
+                    // Produse
+                    this.cart.forEach(item => {
+                        if (y > 250) { // Pagină nouă dacă nu mai avem spațiu
+                            doc.addPage();
+                            y = 20;
+                        }
+                        
+                        doc.text(item.name, 20, y);
+                        doc.text(item.quantity.toString(), 100, y);
+                        doc.text(item.price.toFixed(2) + ' Lei', 130, y);
+                        doc.text((item.price * item.quantity).toFixed(2) + ' Lei', 170, y);
+                        y += 10;
+                    });
+                    
+                    // Linie separator
+                    doc.line(20, y, 190, y);
+                    y += 15;
+                    
+                    // Totaluri
+                    doc.setFontSize(14);
+                    doc.text(`Subtotal: ${subtotal.toFixed(2)} Lei`, 20, y);
+                    y += 10;
+                    
+                    if (discount > 0) {
+                        doc.text(`Discount (${discount}%): -${discountAmount.toFixed(2)} Lei`, 20, y);
+                        y += 10;
+                    }
+                    
+                    doc.text(`TVA (${tva}%): ${tvaAmount.toFixed(2)} Lei`, 20, y);
+                    y += 10;
+                    
+                    doc.setFont('Helvetica', 'bold');
+                    doc.text(`Total general: ${total.toFixed(2)} Lei`, 20, y);
+                    doc.setFont('Helvetica', 'normal');
+                    y += 20;
+                    
+                    // Note
+                    doc.setFontSize(10);
+                    doc.text('* Prețurile includ montajul și configurarea', 20, y);
+                    y += 5;
+                    doc.text('* Valabilitate ofertă: 30 de zile', 20, y);
+                }
+                
+                // Footer
+                doc.setFontSize(10);
+                doc.text("U-Prox Systems SRL | CUI: RO 12345678 | Tel: 0722 123 456", 105, 285, {align: "center"});
+                
+                // Salvare PDF
+                doc.save(`Oferta_U-Prox_${today.replace(/\//g, '-')}.pdf`);
+            }
+        };
+        
+        // Pornire aplicație când se încarcă DOM-ul
+        document.addEventListener('DOMContentLoaded', () => App.init());
+    </script>
+</body>
+</html>
